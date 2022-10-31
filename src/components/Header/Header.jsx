@@ -1,19 +1,25 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./Header.scss";
 
 import React from "react";
 
 const Header = (props) => {
-  const navigate = useNavigate();
   return (
-    <div>
-      <h2>inSight</h2>
-      <div>
+    <header className="header">
+      <h2 className="header__title">inSight</h2>
+      <nav className="nav">
         {" "}
-        <Link to={props.leftButtonDestination}>{props.leftButtonText}</Link>
-        <Link to={props.leftButtonDestination}>{props.rightButtonText}</Link>
-      </div>
-    </div>
+        <Link to={props.leftButtonDestination} className="nav__link">
+          {props.leftButtonText}
+        </Link>
+        <Link
+          to={props.leftButtonDestination}
+          className="nav__link nav__link--signup"
+        >
+          {props.rightButtonText}
+        </Link>
+      </nav>
+    </header>
   );
 };
 

@@ -1,0 +1,43 @@
+.homepage {
+  width: 100vw;
+  height: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  &__content {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0 10rem;
+    justify-content: center;
+    align-items: center;
+  }
+  &__title {
+    margin: 3.6rem 0 1.2rem 0;
+    color: white;
+    font-weight: 700;
+    font-size: 8rem;
+  }
+
+  &__tagline {
+    margin: 0 0 3.6rem 0;
+    text-align: center;
+    color: white;
+    font-size: 3rem;
+  }
+
+  &__video {
+    height: 100%;
+    width: 100vw;
+    object-fit: cover;
+    position: fixed;
+    // left: 0;
+    // right: 0;
+    // top: 0;
+    // bottom: 0;
+    z-index: -1;
+  }
+}
