@@ -1,0 +1,61 @@
+.loginpage {
+  background-image: url("../../assets/Images/pexels-august-de-richelieu-4262410.jpg");
+  height: 100vh;
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  &__title {
+    margin: 1.2rem 0;
+  }
+
+  &__container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  padding: 3rem 3rem;
+  border-radius: 5px;
+  background-color: rgba($color: #ffffff, $alpha: 0.8);
+
+  &__label {
+    margin-bottom: 0.4rem;
+  }
+
+  &__input {
+    width: 100%;
+    margin-bottom: 0.8rem;
+    padding: 1.2rem;
+    border: none;
+    border-radius: 30px;
+    // background-color: rgba($color: #7fd6cb, $alpha: 0.4);
+
+    &::placeholder {
+      font-family: "Montserrat";
+    }
+
+    &::selection {
+      border: 1px solid red;
+    }
+  }
+
+  &__button {
+    all: unset;
+    text-align: center;
+    background-color: #40b7be;
+    padding: 1rem;
+    color: white;
+    margin-top: 0.4rem;
+    border-radius: 50px;
+  }
+}

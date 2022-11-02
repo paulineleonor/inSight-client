@@ -1,11 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Header from "../Header/Header";
 import "./ProfilePage.scss";
 
 const ProfilePage = () => {
   const [user, setUser] = useState(null);
   const [failedAuth, setfailedAuth] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("JWT Token");
@@ -29,11 +32,12 @@ const ProfilePage = () => {
         // );
       });
   }, []);
+
   const handleLogout = () => {
-    sessionStorage.removeItem("token");
-    setUser(null);
-    setfailedAuth(true);
+    localStorage.removeItem("JWT Token");
+    navigate("/login");
   };
+
   if (failedAuth) {
     return (
       <main className="dashboard">
@@ -51,19 +55,30 @@ const ProfilePage = () => {
       </main>
     );
   }
-  const { first_name, last_name, email } = user;
+  const { first_name, email } = user;
+
   return (
-    <main className="dashboard">
-      <h1 className="dashboard__title">Dashboard</h1>
-      <p>
-        Welcome back, {first_name} {last_name}! :wave:
-      </p>
-      <h2>My Profile</h2>
-      <p>Email: {email}</p>
-      <button className="dashboard__logout" onClick={handleLogout}>
-        Log out
-      </button>
-    </main>
+    <div>
+      <Header
+        leftButtonDestination={"/"}
+        leftButtonText={"Home"}
+        rightButtonDestination={"/login"}
+        rightButtonText={"Sign out"}
+      />
+      <main className="dashboard">
+        <h1 className="dashboard__title">Your dashboard</h1>
+        <p>Welcome back, {first_name}!</p>
+        <div className="tracker">
+          <h2 className="tracker__title">Fill out your daily tracker:</h2>
+          <Link>Get started</Link>
+        </div>
+        <h2>My Profile</h2>
+        <p>Email: {email}</p>
+        <button className="dashboard__logout" onClick={handleLogout}>
+          Log out
+        </button>
+      </main>
+    </div>
   );
 };
 export default ProfilePage;

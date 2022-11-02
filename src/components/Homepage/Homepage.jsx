@@ -29,7 +29,7 @@ const Homepage = () => {
           <p className="homepage__tagline">Keep an eye on your loved ones</p>
           <Button
             action={() => {
-              navigate("/login");
+              navigate("/signup");
             }}
             text={"Get started"}
           />
