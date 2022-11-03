@@ -70,7 +70,7 @@ const ProfilePage = () => {
         <p>Welcome back, {first_name}!</p>
         <div className="tracker">
           <h2 className="tracker__title">Fill out your daily tracker:</h2>
-          <Link>Get started</Link>
+          <Link to={`/profile/${first_name}/moodtracker`}>Get started</Link>
         </div>
         <h2>My Profile</h2>
         <p>Email: {email}</p>
