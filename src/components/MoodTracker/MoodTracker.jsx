@@ -1,8 +1,13 @@
+import axios from "axios";
+import jwt_decode from "jwt-decode";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "../Header/Header";
 import "./MoodTracker.scss";
 
 const MoodTracker = () => {
+  const navigate = useNavigate();
+
   const moodsArray = [
     "happy",
     "stressed",
@@ -13,10 +18,31 @@ const MoodTracker = () => {
     "other",
   ];
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
 
-    console.log(e.target.mood_rating.value);
+    const token = localStorage.getItem("JWT Token");
+
+    const decodedUserId = jwt_decode(token);
+
+    let event = null;
+
+    if (e.target.event.value) {
+      event = e.target.event.value;
+    }
+
+    const newLog = {
+      user_id: decodedUserId.id,
+      score: e.target.mood_rating.value,
+      mood: e.target.mood_name.value,
+      event: event,
+    };
+
+    await axios.post("http://localhost:8081/moods", newLog);
+
+    setTimeout(() => {
+      navigate(`/profile/${decodedUserId.name}`);
+    }, 2000);
   };
 
   return (
@@ -58,7 +84,7 @@ const MoodTracker = () => {
 
           <div>
             <label htmlFor="mood_name">What is your dominant mood today?</label>
-            <select name="" id="">
+            <select name="mood_name" id="mood_name">
               {moodsArray.map((mood) => {
                 return <option value={mood}>{mood}</option>;
               })}
@@ -70,7 +96,7 @@ const MoodTracker = () => {
               Have any notable events happened today? (panic attacks, anxiety,
               etc.)
             </label>
-            <input type="text" />
+            <input type="text" name="event" id="event" />
           </div>
 
           <button>Submit</button>
