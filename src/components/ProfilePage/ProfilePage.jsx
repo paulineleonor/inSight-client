@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import Calendar from "react-calendar";
 import { Link, useNavigate } from "react-router-dom";
 import Header from "../Header/Header";
 import "./ProfilePage.scss";
@@ -9,6 +10,7 @@ const ProfilePage = () => {
   const [failedAuth, setfailedAuth] = useState(false);
 
   const navigate = useNavigate();
+  // let moodsTotal = 0;
 
   useEffect(() => {
     const token = localStorage.getItem("JWT Token");
@@ -23,7 +25,7 @@ const ProfilePage = () => {
         },
       })
       .then((response) => {
-        setUser(response.data.userInformation);
+        setUser(response.data);
         console.log(response.data);
       })
       .catch((error) => {
@@ -55,7 +57,23 @@ const ProfilePage = () => {
       </main>
     );
   }
-  const { first_name, email } = user;
+
+  const { first_name, email } = user.userInformation;
+
+  console.log(user);
+
+  const moodsAverage = () => {
+    let moodsTotal = 0;
+
+    let moodsArray = user.moods;
+
+    moodsArray.forEach((mood) => {
+      moodsTotal += mood.score;
+    });
+
+    const moodsAverage = moodsTotal / moodsArray.length;
+    return moodsAverage;
+  };
 
   return (
     <div>
@@ -72,8 +90,31 @@ const ProfilePage = () => {
           <h2 className="tracker__title">Fill out your daily tracker:</h2>
           <Link to={`/profile/${first_name}/moodtracker`}>Get started</Link>
         </div>
-        <h2>My Profile</h2>
-        <p>Email: {email}</p>
+
+        <div>
+          <h2>Your 7-day report:</h2>
+          <div>
+            <div>
+              <h3>Your average mood</h3>
+              <p>{moodsAverage()}/10</p>
+            </div>
+            <div>
+              <h3>Your moods this week</h3>
+              {user.moods.map((log) => {
+                return <p>{log.mood}</p>;
+              })}
+            </div>
+
+            <div>
+              <h3>Your logged events</h3>
+              {user.moods.map((log) => {
+                return <p>{log.event}</p>;
+              })}
+            </div>
+          </div>
+        </div>
+
+        <Calendar />
         <button className="dashboard__logout" onClick={handleLogout}>
           Log out
         </button>
