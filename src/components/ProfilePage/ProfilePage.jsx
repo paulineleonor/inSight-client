@@ -4,13 +4,15 @@ import Calendar from "react-calendar";
 import { Link, useNavigate } from "react-router-dom";
 import Header from "../Header/Header";
 import "./ProfilePage.scss";
+import moment from "moment";
 
 const ProfilePage = () => {
   const [user, setUser] = useState(null);
   const [failedAuth, setfailedAuth] = useState(false);
+  const [calendarValue, setCalendarValue] = useState(new Date());
+  const [selectedDay, setSelectedDay] = useState(null);
 
   const navigate = useNavigate();
-  // let moodsTotal = 0;
 
   useEffect(() => {
     const token = localStorage.getItem("JWT Token");
@@ -60,19 +62,37 @@ const ProfilePage = () => {
 
   const { first_name, email } = user.userInformation;
 
-  console.log(user);
-
   const moodsAverage = () => {
     let moodsTotal = 0;
 
-    let moodsArray = user.moods;
+    const moodsCopy = [...user.moods];
+
+    // console.log(user.moods);
+
+    let moodsArray = moodsCopy.splice(0, 7);
+
+    // console.log(user.moods);
 
     moodsArray.forEach((mood) => {
       moodsTotal += mood.score;
     });
 
     const moodsAverage = moodsTotal / moodsArray.length;
+
     return moodsAverage;
+  };
+
+  const filteredMoods = user.moods.filter((mood) => {
+    console.log(moment(mood.created_at).isAfter(moment().subtract(7, "days")));
+    return moment(mood.created_at).isAfter(moment().subtract(7, "days"));
+  });
+
+  const dayClickHandler = (e) => {
+    const selectedDay = user.moods.filter((mood) => {
+      return moment(e).isSame(mood.created_at, "day");
+    });
+
+    setSelectedDay(selectedDay[0]);
   };
 
   return (
@@ -97,11 +117,12 @@ const ProfilePage = () => {
             <div>
               <h3>Your average mood</h3>
               <p>{moodsAverage()}/10</p>
+              {/* <p>{moodsAverage()} / 10</p> */}
             </div>
             <div>
               <h3>Your moods this week</h3>
-              {user.moods.map((log) => {
-                return <p>{log.mood}</p>;
+              {filteredMoods.map((mood) => {
+                return <p>{mood.mood}</p>;
               })}
             </div>
 
@@ -114,7 +135,16 @@ const ProfilePage = () => {
           </div>
         </div>
 
-        <Calendar />
+        <Calendar
+          value={calendarValue}
+          maxDate={calendarValue}
+          onClickDay={(e) => dayClickHandler(e)}
+        />
+
+        {selectedDay && <p>{selectedDay.mood}</p>}
+
+        {!selectedDay && <p>Nothing...</p>}
+
         <button className="dashboard__logout" onClick={handleLogout}>
           Log out
         </button>
