@@ -1,0 +1,62 @@
+.dashboard {
+  padding: 1.6rem;
+
+  &__title {
+    margin: 1rem 0;
+    font-size: 2.3rem;
+    font-weight: 600;
+  }
+
+  &__tracker {
+    height: 6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #40b7be;
+    border-radius: 5px;
+    box-shadow: 3px 3px 10px #008aa0;
+    margin-bottom: 2rem;
+  }
+
+  &__link {
+    color: white;
+  }
+}
+
+.report {
+  display: flex;
+  flex-direction: column;
+  background-color: #008aa0;
+  padding: 1.6rem;
+  border-radius: 5px;
+  box-shadow: 3px 3px 10px rgba($color: #000000, $alpha: 0.4);
+
+  &__title {
+    margin: 1rem 0;
+    font-size: 1.8rem;
+    font-weight: 600;
+  }
+
+  &__container {
+    display: flex;
+  }
+
+  &__header {
+    font-weight: 600;
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
+  &__wrapper {
+    margin-right: 1rem;
+    background-color: rgba($color: #7fd6cb, $alpha: 0.4);
+    width: 15rem;
+    border-radius: 3px;
+    box-shadow: 2px 2px 5px rgba($color: #000000, $alpha: 0.2);
+  }
+
+  &__average {
+    text-align: center;
+    font-weight: 700;
+  }
+}

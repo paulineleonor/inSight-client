@@ -11,6 +11,7 @@ const ProfilePage = () => {
   const [failedAuth, setfailedAuth] = useState(false);
   const [calendarValue, setCalendarValue] = useState(new Date());
   const [selectedDay, setSelectedDay] = useState(null);
+  const [dailyTracker, setDailyTracker] = useState(false);
 
   const navigate = useNavigate();
 
@@ -95,6 +96,13 @@ const ProfilePage = () => {
     setSelectedDay(selectedDay[0]);
   };
 
+  // const trackerModal = () => {
+  //   console.log(
+  //     moment(user.moods[user.moods.length - 1].created_at).isSame(moment()._d)
+  //   );
+  // };
+
+  // trackerModal();
   return (
     <div>
       <Header
@@ -105,31 +113,33 @@ const ProfilePage = () => {
       />
       <main className="dashboard">
         <h1 className="dashboard__title">Your dashboard</h1>
-        <p>Welcome back, {first_name}!</p>
-        <div className="tracker">
-          <h2 className="tracker__title">Fill out your daily tracker:</h2>
-          <Link to={`/profile/${first_name}/moodtracker`}>Get started</Link>
+        <p>Welcome back, {first_name}! &hearts;</p>
+        <div className="dashboard__tracker">
+          <Link
+            to={`/profile/${first_name}/moodtracker`}
+            className="dashboard__link"
+          >
+            Fill out your daily tracker!
+          </Link>
         </div>
 
-        <div>
-          <h2>Your 7-day report:</h2>
-          <div>
-            <div>
-              <h3>Your average mood</h3>
-              <p>{moodsAverage()}/10</p>
-              {/* <p>{moodsAverage()} / 10</p> */}
+        <div className="report">
+          <h2 className="report__title">Your 7-day report:</h2>
+          <div className="report__container">
+            <div className="report__wrapper">
+              <h3 className="report__header">Your average mood</h3>
+              <p className="report__average">{moodsAverage()}/10</p>
             </div>
-            <div>
-              <h3>Your moods this week</h3>
+            <div className="report__wrapper">
+              <h3 className="report__header">Your moods this week</h3>
               {filteredMoods.map((mood) => {
-                return <p>{mood.mood}</p>;
+                return <p className="report__mood">{mood.mood}</p>;
               })}
             </div>
-
-            <div>
-              <h3>Your logged events</h3>
+            <div className="report__wrapper">
+              <h3 className="report__header">Your logged events</h3>
               {user.moods.map((log) => {
-                return <p>{log.event}</p>;
+                return <p className="report__event">{log.event}</p>;
               })}
             </div>
           </div>
