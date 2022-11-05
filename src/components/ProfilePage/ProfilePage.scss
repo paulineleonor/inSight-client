@@ -26,13 +26,14 @@
 .report {
   display: flex;
   flex-direction: column;
-  background-color: #008aa0;
-  padding: 1.6rem;
+  // background-color: #7fd6cb;
+  padding: 0 1.6rem 1.6rem 1.6rem;
   border-radius: 5px;
-  box-shadow: 3px 3px 10px rgba($color: #000000, $alpha: 0.4);
+  box-shadow: 5px 5px 10px rgba($color: #7fd6cb, $alpha: 1);
+  margin-bottom: 2.4rem;
 
   &__title {
-    margin: 1rem 0;
+    margin: 2rem 0;
     font-size: 1.8rem;
     font-weight: 600;
   }
@@ -48,15 +49,90 @@
   }
 
   &__wrapper {
+    padding: 0.5rem;
     margin-right: 1rem;
-    background-color: rgba($color: #7fd6cb, $alpha: 0.4);
-    width: 15rem;
+    // background-color: rgba($color: #7fd6cb, $alpha: 1);
+    width: 33%;
     border-radius: 3px;
-    box-shadow: 2px 2px 5px rgba($color: #000000, $alpha: 0.2);
+    box-shadow: 2px 2px 5px rgba($color: #008aa0, $alpha: 0.2);
+
+    &--right {
+      margin-right: 0;
+    }
   }
 
   &__average {
     text-align: center;
     font-weight: 700;
+    font-size: 3rem;
+  }
+
+  &__moods {
+    text-align: center;
+    font-size: 1.2rem;
+    text-transform: capitalize;
+  }
+
+  &__event {
+    text-align: center;
+    font-size: 1.2rem;
+  }
+}
+
+.react-calendar {
+  min-width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 3px;
+  box-shadow: 2px 2px 5px rgba($color: #008aa0, $alpha: 0.5);
+  border-color: #008aa0 !important;
+
+  &__navigation {
+    width: 100%;
+  }
+
+  &__navigation__label {
+    font-family: "Montserrat";
+    font-weight: 600;
+    font-size: 1.3rem;
+  }
+
+  &__tile {
+    font-family: "Montserrat";
+
+    &:disabled {
+      background-color: rgba($color: #40b7be, $alpha: 0.2) !important;
+    }
+
+    &--active {
+      background-color: #ffa62b !important;
+    }
+    &:enabled {
+      &:hover {
+        background-color: #40b7be !important;
+      }
+    }
+  }
+
+  &__month-view__weekdays__weekday {
+    font-family: "Montserrat";
+    font-weight: 600;
+  }
+}
+
+.dayLog {
+  margin-top: 1.6rem;
+  background-color: #7fd6cb;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  box-shadow: 3px 3px 10px #008aa0;
+
+  &__container {
+    display: flex;
   }
 }

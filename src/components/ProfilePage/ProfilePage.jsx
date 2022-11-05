@@ -5,13 +5,16 @@ import { Link, useNavigate } from "react-router-dom";
 import Header from "../Header/Header";
 import "./ProfilePage.scss";
 import moment from "moment";
+import ChartIcon from "../../assets/Icons/chart.svg";
+import "react-calendar/dist/Calendar.css";
 
 const ProfilePage = () => {
   const [user, setUser] = useState(null);
   const [failedAuth, setfailedAuth] = useState(false);
   const [calendarValue, setCalendarValue] = useState(new Date());
   const [selectedDay, setSelectedDay] = useState(null);
-  const [dailyTracker, setDailyTracker] = useState(false);
+  const [hasEvents, setHasEvents] = useState(false);
+  const [averageIsGood, setAverageIsGood] = useState(false);
 
   const navigate = useNavigate();
 
@@ -80,11 +83,14 @@ const ProfilePage = () => {
 
     const moodsAverage = moodsTotal / moodsArray.length;
 
+    if (moodsArray > 5) {
+      setAverageIsGood(true);
+    }
+
     return moodsAverage;
   };
 
   const filteredMoods = user.moods.filter((mood) => {
-    console.log(moment(mood.created_at).isAfter(moment().subtract(7, "days")));
     return moment(mood.created_at).isAfter(moment().subtract(7, "days"));
   });
 
@@ -95,6 +101,22 @@ const ProfilePage = () => {
 
     setSelectedDay(selectedDay[0]);
   };
+
+  const checkForEvents = () => {
+    const arrayOfEvents = [];
+
+    filteredMoods.forEach((mood) => {
+      if (mood.event !== null) {
+        arrayOfEvents.push(mood.event);
+      }
+    });
+
+    if (arrayOfEvents.length !== 0) {
+      setHasEvents(true);
+    }
+  };
+
+  checkForEvents();
 
   // const trackerModal = () => {
   //   console.log(
@@ -127,33 +149,52 @@ const ProfilePage = () => {
           <h2 className="report__title">Your 7-day report:</h2>
           <div className="report__container">
             <div className="report__wrapper">
+              <img src={ChartIcon} alt="" />
               <h3 className="report__header">Your average mood</h3>
               <p className="report__average">{moodsAverage()}/10</p>
             </div>
             <div className="report__wrapper">
               <h3 className="report__header">Your moods this week</h3>
               {filteredMoods.map((mood) => {
-                return <p className="report__mood">{mood.mood}</p>;
+                return <p className="report__moods">{mood.mood}</p>;
               })}
             </div>
-            <div className="report__wrapper">
+            <div className="report__wrapper report__wrapper--right">
               <h3 className="report__header">Your logged events</h3>
-              {user.moods.map((log) => {
-                return <p className="report__event">{log.event}</p>;
-              })}
+              {!hasEvents && (
+                <p className="report__event">No event this week!</p>
+              )}
+
+              {hasEvents &&
+                filteredMoods.map((log) => {
+                  return <p className="report__event">{log.event}</p>;
+                })}
             </div>
           </div>
         </div>
 
-        <Calendar
-          value={calendarValue}
-          maxDate={calendarValue}
-          onClickDay={(e) => dayClickHandler(e)}
-        />
-
-        {selectedDay && <p>{selectedDay.mood}</p>}
-
-        {!selectedDay && <p>Nothing...</p>}
+        <div className="calendar">
+          <h2>Your past entries</h2>
+          <p>Click on the day to see your mood!</p>
+          <Calendar
+            value={calendarValue}
+            maxDate={calendarValue}
+            onClickDay={(e) => dayClickHandler(e)}
+          />
+          {selectedDay && (
+            <div className="dayLog">
+              <p className="dayLog__title">
+                Here's what your logged for that day:
+              </p>
+              <div className="dayLog__container">
+                <p className="dayLog__mood">{selectedDay.mood}</p>
+                <p className="dayLog__score">{selectedDay.score}</p>
+                <p className="dayLog__event">{selectedDay.event}</p>
+              </div>
+            </div>
+          )}
+          {!selectedDay && <p>Not tracker filled out that day!</p>}
+        </div>
 
         <button className="dashboard__logout" onClick={handleLogout}>
           Log out
