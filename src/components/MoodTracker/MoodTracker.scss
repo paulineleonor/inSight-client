@@ -1,0 +1,67 @@
+.tracker {
+  padding: 1.6rem;
+  background-color: #ebf6fa;
+
+  &__title {
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+    font-size: 2.3rem;
+    font-weight: 600;
+  }
+
+  &__subtitle {
+    font-size: 1.2rem;
+    line-height: 1.8rem;
+    margin-bottom: 2.4rem;
+  }
+
+  &__container {
+    background-color: white;
+    padding: 1.6rem;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2.4rem;
+    border-radius: 5px;
+    box-shadow: 3px 3px 10px #ffa62b;
+  }
+
+  &__inner {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__grade {
+    font-size: 0.8rem;
+  }
+
+  &__label {
+    margin-bottom: 1.2rem;
+  }
+
+  &__option {
+    font-family: "Montserrat";
+    text-transform: capitalize;
+    padding: 1rem;
+    border: 2px solid #7fd6cb;
+    border-radius: 5px;
+  }
+
+  &__text {
+    font-family: "Montserrat";
+    text-transform: capitalize;
+    padding: 1rem;
+    border: 2px solid #7fd6cb;
+    border-radius: 5px;
+  }
+
+  &__button {
+    all: unset;
+    padding: 1rem 0;
+    background-color: #008aa0;
+    width: 100%;
+    border-radius: 50px;
+    color: white;
+    text-align: center;
+    font-weight: 600;
+  }
+}

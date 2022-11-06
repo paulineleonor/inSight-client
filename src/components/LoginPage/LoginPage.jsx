@@ -3,6 +3,7 @@ import jwt_decode from "jwt-decode";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
 
 const LoginPage = () => {
   const [name, setName] = useState(null);
@@ -38,7 +39,6 @@ const LoginPage = () => {
     <div>
       <Header />
       <section className="loginpage">
-        <h1 className="loginpage__title">Sign in</h1>
         <div className="loginpage__container">
           {" "}
           <form
@@ -46,6 +46,7 @@ const LoginPage = () => {
             action="submit"
             onSubmit={(e) => submitHandler(e)}
           >
+            <h1 className="loginpage__title">Sign in</h1>
             <label className="form__label" htmlFor="email">
               Email
             </label>
@@ -75,6 +76,7 @@ const LoginPage = () => {
           </form>
         </div>
       </section>
+      <Footer />
     </div>
   );
 };

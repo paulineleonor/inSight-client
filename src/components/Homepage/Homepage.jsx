@@ -4,6 +4,7 @@ import Video from "../../assets/Videos/homepage_video.mp4";
 import Button from "../Button/Button";
 import Header from "../Header/Header";
 import "./Homepage.scss";
+import Footer from "../Footer/Footer";
 
 const Homepage = () => {
   const navigate = useNavigate();
@@ -11,9 +12,9 @@ const Homepage = () => {
     <div>
       <Header
         leftButtonDestination={"/login"}
-        leftButtonText={"login"}
+        leftButtonText={"Log in"}
         rightButtonDestination={"/signup"}
-        rightButtonText={"signup"}
+        rightButtonText={"Sign up"}
       />
       <section className="homepage">
         <video
@@ -35,6 +36,7 @@ const Homepage = () => {
           />
         </div>
       </section>
+      <Footer />
     </div>
   );
 };

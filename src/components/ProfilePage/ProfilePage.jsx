@@ -9,7 +9,6 @@ import ChartIcon from "../../assets/Icons/chart.svg";
 import "react-calendar/dist/Calendar.css";
 import CalendarIcon from "../../assets/Icons/calendar.svg";
 import HeartIcon from "../../assets/Icons/heart.svg";
-import Button from "../Button/Button";
 
 const ProfilePage = () => {
   const [user, setUser] = useState(null);

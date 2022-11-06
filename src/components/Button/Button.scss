@@ -1,7 +1,14 @@
+@use "../../styles/partials/mixins" as *;
+
 .button {
   color: white;
-  padding: 1rem;
+  padding: 1rem 2rem;
   background-color: #40b7be;
   border-radius: 50px;
   text-align: center;
+  cursor: pointer;
+
+  @include tablet {
+    font-size: 2rem;
+  }
 }
