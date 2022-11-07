@@ -20,7 +20,39 @@ const ProfilePage = () => {
   const [currentDayIsEmpty, setCurrentDayIsEmpty] = useState(true);
   const [chosenDayHasEvents, setChosenDayHasEvents] = useState(false);
 
+  const [isToday, setIsToday] = useState(null);
+  const [chosenDayData, setChosenDayData] = useState(null);
+
+  const calendarClickHandler = (date) => {
+    console.log(date);
+    console.log(moment(date).isSame(moment(), "day"));
+    if (moment(date).isSame(moment(), "day")) {
+      setIsToday(true);
+    } else {
+      setIsToday(false);
+    }
+    const data = user.moods.find((mood) => {
+      return moment(date).isSame(mood.created_at, "day");
+    });
+    setChosenDayData(data);
+  };
+
+  const [moods, setMoods] = useState([]);
+
   const navigate = useNavigate();
+  const checkForEvents = () => {
+    const arrayOfEvents = [];
+
+    moods.forEach((mood) => {
+      if (mood.event !== null) {
+        arrayOfEvents.push(mood.event);
+      }
+    });
+
+    if (arrayOfEvents.length !== 0) {
+      setHasEvents(true);
+    }
+  };
 
   useEffect(() => {
     const token = localStorage.getItem("JWT Token");
@@ -36,7 +68,11 @@ const ProfilePage = () => {
       })
       .then((response) => {
         setUser(response.data);
-        console.log(response.data);
+        const filteredMoods = response.data.moods.filter((mood) => {
+          return moment(mood.created_at).isAfter(moment().subtract(7, "days"));
+        });
+        console.log(filteredMoods);
+        setMoods(filteredMoods);
       })
       .catch((error) => {
         // setfailedAuth
@@ -44,6 +80,12 @@ const ProfilePage = () => {
         // );
       });
   }, []);
+
+  useEffect(() => {
+    if (moods.length !== 0) {
+      checkForEvents();
+    }
+  }, [selectedDay]);
 
   const handleLogout = () => {
     localStorage.removeItem("JWT Token");
@@ -98,45 +140,43 @@ const ProfilePage = () => {
     return moment(mood.created_at).isAfter(moment().subtract(7, "days"));
   });
 
+  //STOP HERE
+
   const dayClickHandler = (e) => {
+    console.log(moment(e).year());
+    console.log(moment(e).isSame(moment(), "day"));
+    // console.log(moment());
+    // console.log(Date.now());
     setSelectedDay(null);
     setCurrentDayIsEmpty(false);
 
     const selectedDay = user.moods.filter((mood) => {
       return moment(e).isSame(mood.created_at, "day");
     });
+    // console.log(selectedDay);
+    // console.log("first", moment(selectedDay[0].created_at));
+    // console.log("second", moment()._d, "day");
 
-    if (moment(selectedDay).isSame(moment()._d) && selectedDay.length === 0) {
+    if (moment(e).isSame(moment(), "day") && selectedDay.length === 0) {
+      console.log("hello");
       setCurrentDayIsEmpty(true);
-      setSelectedDay(undefined);
+      // setSelectedDay(undefined);
       return;
     }
 
-    console.log("hello" + selectedDay);
+    // console.log("hello" + selectedDay);
     setSelectedDay(selectedDay[0]);
   };
-
-  const checkForEvents = () => {
-    const arrayOfEvents = [];
-
-    filteredMoods.forEach((mood) => {
-      if (mood.event !== null) {
-        arrayOfEvents.push(mood.event);
-      }
-    });
-
-    if (arrayOfEvents.length !== 0) {
-      setHasEvents(true);
-    }
-  };
-
-  checkForEvents();
 
   // const trackerModal = () => {
   //   console.log(
   //     moment(user.moods[user.moods.length - 1].created_at).isSame(moment()._d)
   //   );
   // };
+
+  if (moods.length === 0) {
+    return <h1>Loading!!!!!!! </h1>;
+  }
 
   // trackerModal();
   return (
@@ -170,7 +210,7 @@ const ProfilePage = () => {
               <img src={HeartIcon} alt="" className="report__icon" />
 
               <h3 className="report__header">Your moods this week</h3>
-              {filteredMoods.map((mood) => {
+              {moods.map((mood) => {
                 return <p className="report__moods">{mood.mood}</p>;
               })}
             </div>
@@ -184,7 +224,7 @@ const ProfilePage = () => {
               )}
 
               {hasEvents &&
-                filteredMoods.map((log) => {
+                moods.map((log) => {
                   return <p className="report__event">{log.event}</p>;
                 })}
             </div>
@@ -198,9 +238,12 @@ const ProfilePage = () => {
           <Calendar
             value={calendarValue}
             maxDate={calendarValue}
-            onClickDay={(e) => dayClickHandler(e)}
+            // onClickDay={(e) => dayClickHandler(e)}
+            onClickDay={(e) => {
+              calendarClickHandler(e);
+            }}
           />
-          {selectedDay && (
+          {/* {selectedDay && (
             <div className="dayLog">
               <p className="dayLog__title">
                 Here's what your logged for that day:
@@ -225,15 +268,17 @@ const ProfilePage = () => {
                   )}
 
                   {hasEvents &&
-                    filteredMoods.map((log) => {
+                    moods.map((log) => {
                       return <p className="report__event">{log.event}</p>;
                     })}
                 </div>
               </div>
             </div>
-          )}
+          )} */}
 
-          {!selectedDay && (
+          {/* {(!selectedDay || currentDayIsEmpty) && (
+            // If the date (excluding time) stored in calendarValue is equal to a new date object
+
             <div className="dayLog">
               <p className="dayLog__title">No tracker filled out that day!</p>
             </div>
@@ -251,7 +296,10 @@ const ProfilePage = () => {
                 Log my moods
               </Link>
             </div>
-          )}
+          )} */}
+          {chosenDayData && <p>Here's your moods</p>}
+          {isToday && !chosenDayData && <p>Fill out your form</p>}
+          {!isToday && !chosenDayData && <p>No data for that day</p>}
         </div>
 
         <div className="dashboard__button">
