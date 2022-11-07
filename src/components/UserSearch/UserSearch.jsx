@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
@@ -7,6 +7,7 @@ import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import Button from "../Button/Button";
 import { Link } from "react-router-dom";
+import "./UserSearch.scss";
 
 const UserSearch = () => {
   const [users, setUsers] = useState();
@@ -14,8 +15,16 @@ const UserSearch = () => {
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const token = localStorage.getItem("JWT Token");
+    const decodedUser = jwt_decode(token);
+    console.log(decodedUser.first_name);
+    setCurrentUser(decodedUser);
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setUsers();
 
     const { data } = await axios.get(
       `http://localhost:8081/users/search?email=${e.target.user_email.value}`
@@ -35,38 +44,54 @@ const UserSearch = () => {
       connection_id: users[0].id,
     };
 
+    console.log(decodedUser);
     await axios.post("http://localhost:8081/users/connection", connection);
   };
 
   return (
     <div>
       <Header />
-      <div>
-        {" "}
-        <form
-          onSubmit={(e) => {
-            handleSubmit(e);
-          }}
-        >
-          <input type="text" name="user_email" id="user_email" />
-          <button type="submit">Submit</button>
-        </form>
+      <div className="search">
+        <h2 className="search__title">Connect with your loved ones!</h2>
+        <p>Enter a contact's email above to connect with them.</p>
+
+        <div className="search__search">
+          {" "}
+          <form
+            className="search__form"
+            onSubmit={(e) => {
+              handleSubmit(e);
+            }}
+          >
+            <input
+              type="text"
+              name="user_email"
+              id="user_email"
+              className="search__input"
+              placeholder="Your loved one's email address"
+            />
+            <button type="submit" className="search__submit">
+              Submit
+            </button>
+          </form>
+        </div>
+        {users && (
+          <article className="search__result">
+            <p className="search__name">
+              {users[0].first_name} {users[0].last_name}
+            </p>
+            <button onClick={handleConnect} className="search__button">
+              Connect
+            </button>
+          </article>
+        )}
       </div>
 
-      {users && (
-        <div>
-          <p>{users[0].first_name}</p>
-          <p>{users[0].last_name}</p>
-          <button onClick={handleConnect}>Connect</button>
-        </div>
-      )}
-
-      {!users && (
-        <div>Enter your loved one's email above to connect with them.</div>
-      )}
-
       <div>
-        <Link to={`/profile/${currentUser}`}>
+        <Link
+          to={`/profile/${currentUser ? currentUser.first_name : ""}`}
+          className="search__link"
+        >
           {" "}
           <Button text="Back to my profile" />
         </Link>

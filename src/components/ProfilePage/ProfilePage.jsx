@@ -10,6 +10,7 @@ import "react-calendar/dist/Calendar.css";
 import CalendarIcon from "../../assets/Icons/calendar.svg";
 import HeartIcon from "../../assets/Icons/heart.svg";
 import { Children } from "react";
+import Arrow from "../../assets/Icons/arrow.svg";
 
 const ProfilePage = () => {
   const [user, setUser] = useState(null);
@@ -26,6 +27,8 @@ const ProfilePage = () => {
   const [moods, setMoods] = useState([]);
 
   const [userHasConnections, setUserHasConnections] = useState(false);
+
+  const [showConnections, setShowConnections] = useState(false);
 
   const navigate = useNavigate();
   const calendarClickHandler = (date) => {
@@ -76,7 +79,6 @@ const ProfilePage = () => {
           setUserHasConnections(true);
         }
 
-        console.log(response.data.connections);
         setMoods(filteredMoods);
       })
       .catch((error) => {
@@ -141,36 +143,24 @@ const ProfilePage = () => {
     return moodsAverage;
   };
 
-  const filteredMoods = user.moods.filter((mood) => {
-    return moment(mood.created_at).isAfter(moment().subtract(7, "days"));
-  });
-
-  //STOP HERE
-
-  // const dayClickHandler = (e) => {
-  //   setSelectedDay(null);
-  //   setCurrentDayIsEmpty(false);
-
-  //   const selectedDay = user.moods.filter((mood) => {
-  //     return moment(e).isSame(mood.created_at, "day");
-  //   });
-
-  //   if (moment(e).isSame(moment(), "day") && selectedDay.length === 0) {
-  //     console.log("hello");
-  //     setCurrentDayIsEmpty(true);
-  //     // setSelectedDay(undefined);
-  //     return;
-  //   }
-
-  //   // console.log("hello" + selectedDay);
-  //   setSelectedDay(selectedDay[0]);
-  // };
+  // const filteredMoods = user.moods.filter((mood) => {
+  //   return moment(mood.created_at).isAfter(moment().subtract(7, "days"));
+  // });
 
   if (moods.length === 0) {
-    return <h1>Loading!!!!!!! </h1>;
+    return (
+      <div>
+        <Header />
+        <h1>Welcome to inSight!</h1>
+        <p>To get started, fill out your first mood tracker!</p>
+      </div>
+    );
   }
 
-  // trackerModal();
+  const handleArrowClick = () => {
+    setShowConnections(!showConnections);
+  };
+
   return (
     <div>
       <Header
@@ -285,23 +275,44 @@ const ProfilePage = () => {
 
           {!isToday && !chosenDayData && (
             <div className="dayLog">
-              <p className="dayLog__title">No tracker filled out that day!</p>
+              <p className="dayLog__text">No tracker filled out that day!</p>
             </div>
           )}
         </div>
 
         <div className="connections">
-          <h2>Your connections</h2>
-          {userHasConnections &&
+          <div className="connections__wrapper">
+            {" "}
+            <h2 className="connections__title">
+              Your connections ({user.connections.length})
+            </h2>
+            <img
+              src={Arrow}
+              alt=""
+              className="connections__icon"
+              onClick={handleArrowClick}
+            />
+          </div>
+
+          {showConnections &&
+            userHasConnections &&
             user.connections.map((connection) => {
-              return <p>{connection.mood_logs.id}</p>;
+              return (
+                <article className="connections__card">
+                  <p className="connections__text">
+                    {connection.users.first_name} {connection.users.last_name}
+                  </p>
+                </article>
+              );
             })}
+
           {!userHasConnections && (
-            <div>
-              {" "}
-              <p>You don't have any connections yet.</p>
+            <article className="connections__card">
+              <p className="connections__text">
+                You don't have any connections yet.
+              </p>
               <button>Add connection</button>
-            </div>
+            </article>
           )}
         </div>
 
