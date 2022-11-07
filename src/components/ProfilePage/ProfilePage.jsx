@@ -9,6 +9,7 @@ import ChartIcon from "../../assets/Icons/chart.svg";
 import "react-calendar/dist/Calendar.css";
 import CalendarIcon from "../../assets/Icons/calendar.svg";
 import HeartIcon from "../../assets/Icons/heart.svg";
+import { Children } from "react";
 
 const ProfilePage = () => {
   const [user, setUser] = useState(null);
@@ -22,10 +23,12 @@ const ProfilePage = () => {
 
   const [isToday, setIsToday] = useState(null);
   const [chosenDayData, setChosenDayData] = useState(null);
+  const [moods, setMoods] = useState([]);
 
+  const [userHasConnections, setUserHasConnections] = useState(false);
+
+  const navigate = useNavigate();
   const calendarClickHandler = (date) => {
-    console.log(date);
-    console.log(moment(date).isSame(moment(), "day"));
     if (moment(date).isSame(moment(), "day")) {
       setIsToday(true);
     } else {
@@ -37,9 +40,6 @@ const ProfilePage = () => {
     setChosenDayData(data);
   };
 
-  const [moods, setMoods] = useState([]);
-
-  const navigate = useNavigate();
   const checkForEvents = () => {
     const arrayOfEvents = [];
 
@@ -71,7 +71,12 @@ const ProfilePage = () => {
         const filteredMoods = response.data.moods.filter((mood) => {
           return moment(mood.created_at).isAfter(moment().subtract(7, "days"));
         });
-        console.log(filteredMoods);
+
+        if (response.data.connections.length) {
+          setUserHasConnections(true);
+        }
+
+        console.log(response.data.connections);
         setMoods(filteredMoods);
       })
       .catch((error) => {
@@ -142,36 +147,23 @@ const ProfilePage = () => {
 
   //STOP HERE
 
-  const dayClickHandler = (e) => {
-    console.log(moment(e).year());
-    console.log(moment(e).isSame(moment(), "day"));
-    // console.log(moment());
-    // console.log(Date.now());
-    setSelectedDay(null);
-    setCurrentDayIsEmpty(false);
+  // const dayClickHandler = (e) => {
+  //   setSelectedDay(null);
+  //   setCurrentDayIsEmpty(false);
 
-    const selectedDay = user.moods.filter((mood) => {
-      return moment(e).isSame(mood.created_at, "day");
-    });
-    // console.log(selectedDay);
-    // console.log("first", moment(selectedDay[0].created_at));
-    // console.log("second", moment()._d, "day");
+  //   const selectedDay = user.moods.filter((mood) => {
+  //     return moment(e).isSame(mood.created_at, "day");
+  //   });
 
-    if (moment(e).isSame(moment(), "day") && selectedDay.length === 0) {
-      console.log("hello");
-      setCurrentDayIsEmpty(true);
-      // setSelectedDay(undefined);
-      return;
-    }
+  //   if (moment(e).isSame(moment(), "day") && selectedDay.length === 0) {
+  //     console.log("hello");
+  //     setCurrentDayIsEmpty(true);
+  //     // setSelectedDay(undefined);
+  //     return;
+  //   }
 
-    // console.log("hello" + selectedDay);
-    setSelectedDay(selectedDay[0]);
-  };
-
-  // const trackerModal = () => {
-  //   console.log(
-  //     moment(user.moods[user.moods.length - 1].created_at).isSame(moment()._d)
-  //   );
+  //   // console.log("hello" + selectedDay);
+  //   setSelectedDay(selectedDay[0]);
   // };
 
   if (moods.length === 0) {
@@ -190,6 +182,7 @@ const ProfilePage = () => {
       <main className="dashboard">
         <h1 className="dashboard__title">Your dashboard</h1>
         <p>Welcome back, {first_name}! &hearts;</p>
+
         <div className="dashboard__tracker">
           <Link
             to={`/profile/${first_name}/moodtracker`}
@@ -238,12 +231,12 @@ const ProfilePage = () => {
           <Calendar
             value={calendarValue}
             maxDate={calendarValue}
-            // onClickDay={(e) => dayClickHandler(e)}
             onClickDay={(e) => {
               calendarClickHandler(e);
             }}
           />
-          {/* {selectedDay && (
+
+          {chosenDayData && (
             <div className="dayLog">
               <p className="dayLog__title">
                 Here's what your logged for that day:
@@ -252,12 +245,12 @@ const ProfilePage = () => {
                 <div className="report__wrapper">
                   <img src={ChartIcon} alt="" className="report__icon" />
                   <h3 className="report__header">Your score</h3>
-                  <p className="report__average">{selectedDay.score}/10</p>
+                  <p className="report__average">{chosenDayData.score}/10</p>
                 </div>
                 <div className="report__wrapper">
                   <img src={HeartIcon} alt="" className="report__icon" />
                   <h3 className="report__header">Your mood</h3>
-                  <p className="report__moods">{selectedDay.mood}</p>
+                  <p className="report__moods">{chosenDayData.mood}</p>
                 </div>
                 <div className="report__wrapper report__wrapper--right">
                   <img src={CalendarIcon} alt="" className="report__icon" />
@@ -268,23 +261,15 @@ const ProfilePage = () => {
                   )}
 
                   {hasEvents &&
-                    moods.map((log) => {
+                    chosenDayData.map((log) => {
                       return <p className="report__event">{log.event}</p>;
                     })}
                 </div>
               </div>
             </div>
-          )} */}
-
-          {/* {(!selectedDay || currentDayIsEmpty) && (
-            // If the date (excluding time) stored in calendarValue is equal to a new date object
-
-            <div className="dayLog">
-              <p className="dayLog__title">No tracker filled out that day!</p>
-            </div>
           )}
 
-          {currentDayIsEmpty && (
+          {isToday && !chosenDayData && (
             <div className="dayLog">
               <p className="dayLog__title">
                 You've not filled out your tracker for today!
@@ -296,10 +281,28 @@ const ProfilePage = () => {
                 Log my moods
               </Link>
             </div>
-          )} */}
-          {chosenDayData && <p>Here's your moods</p>}
-          {isToday && !chosenDayData && <p>Fill out your form</p>}
-          {!isToday && !chosenDayData && <p>No data for that day</p>}
+          )}
+
+          {!isToday && !chosenDayData && (
+            <div className="dayLog">
+              <p className="dayLog__title">No tracker filled out that day!</p>
+            </div>
+          )}
+        </div>
+
+        <div className="connections">
+          <h2>Your connections</h2>
+          {userHasConnections &&
+            user.connections.map((connection) => {
+              return <p>{connection.mood_logs.id}</p>;
+            })}
+          {!userHasConnections && (
+            <div>
+              {" "}
+              <p>You don't have any connections yet.</p>
+              <button>Add connection</button>
+            </div>
+          )}
         </div>
 
         <div className="dashboard__button">

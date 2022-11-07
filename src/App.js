@@ -5,6 +5,8 @@ import LoginPage from "./components/LoginPage/LoginPage";
 import MoodTracker from "./components/MoodTracker/MoodTracker";
 import ProfilePage from "./components/ProfilePage/ProfilePage";
 import SignUp from "./components/SignUp/SignUp";
+import Connections from "./components/Connections/Connections";
+import UserSearch from "./components/UserSearch/UserSearch";
 
 function App() {
   return (
@@ -16,6 +18,11 @@ function App() {
           <Route path="/profile/:name" element={<ProfilePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/profile/:name/moodtracker" element={<MoodTracker />} />
+          <Route path="/profile/:name/connections" element={<Connections />} />
+          <Route
+            path="/profile/:name/connections/search"
+            element={<UserSearch />}
+          />
         </Routes>
       </BrowserRouter>
     </div>
