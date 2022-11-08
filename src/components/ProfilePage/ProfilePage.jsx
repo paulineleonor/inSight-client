@@ -22,7 +22,7 @@ const ProfilePage = () => {
   const [currentDayIsEmpty, setCurrentDayIsEmpty] = useState(true);
   const [chosenDayHasEvents, setChosenDayHasEvents] = useState(false);
 
-  const [isToday, setIsToday] = useState(null);
+  const [isToday, setIsToday] = useState(true);
   const [chosenDayData, setChosenDayData] = useState(null);
   const [moods, setMoods] = useState([]);
 
@@ -30,7 +30,10 @@ const ProfilePage = () => {
 
   const [showConnections, setShowConnections] = useState(false);
 
+  const [arrayOfEvents, setArrayOfEvents] = useState([]);
+
   const navigate = useNavigate();
+
   const calendarClickHandler = (date) => {
     if (moment(date).isSame(moment(), "day")) {
       setIsToday(true);
@@ -43,14 +46,19 @@ const ProfilePage = () => {
     setChosenDayData(data);
   };
 
-  const checkForEvents = () => {
-    const arrayOfEvents = [];
+  const checkForEvents = (moodsArray) => {
+    if (!moodsArray) {
+      return;
+    }
 
-    moods.forEach((mood) => {
+    const arrayOfEvents = [];
+    moodsArray.forEach((mood) => {
       if (mood.event !== null) {
         arrayOfEvents.push(mood.event);
       }
     });
+    setArrayOfEvents(arrayOfEvents);
+    console.log(arrayOfEvents);
 
     if (arrayOfEvents.length !== 0) {
       setHasEvents(true);
@@ -79,7 +87,13 @@ const ProfilePage = () => {
           setUserHasConnections(true);
         }
 
+        const data = response.data.moods.find((mood) => {
+          return moment().isSame(mood.created_at, "day");
+        });
+
+        setChosenDayData(data);
         setMoods(filteredMoods);
+        checkForEvents(filteredMoods);
       })
       .catch((error) => {
         // setfailedAuth
@@ -88,11 +102,11 @@ const ProfilePage = () => {
       });
   }, []);
 
-  useEffect(() => {
-    if (moods.length !== 0) {
-      checkForEvents();
-    }
-  }, [selectedDay]);
+  // useEffect(() => {
+  //   // if (moods.length !== 0) {
+  //   checkForEvents();
+  //   // }
+  // }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("JWT Token");
@@ -173,14 +187,17 @@ const ProfilePage = () => {
         <h1 className="dashboard__title">Your dashboard</h1>
         <p>Welcome back, {first_name}! &hearts;</p>
 
-        <div className="dashboard__tracker">
-          <Link
-            to={`/profile/${first_name}/moodtracker`}
-            className="dashboard__link"
-          >
-            Fill out your daily tracker!
-          </Link>
-        </div>
+        {!chosenDayData && isToday && (
+          <div className="dashboard__tracker">
+            <Link
+              to={`/profile/${first_name}/moodtracker`}
+              className="dashboard__link"
+            >
+              Fill out your daily tracker!
+            </Link>
+          </div>
+        )}
+
         <div className="report">
           <h2 className="report__title">Your 7-day report:</h2>
           <div className="report__container">
@@ -207,8 +224,8 @@ const ProfilePage = () => {
               )}
 
               {hasEvents &&
-                moods.map((log) => {
-                  return <p className="report__event">{log.event}</p>;
+                arrayOfEvents.map((log) => {
+                  return <p className="report__event">{log}</p>;
                 })}
             </div>
           </div>
@@ -244,16 +261,15 @@ const ProfilePage = () => {
                 </div>
                 <div className="report__wrapper report__wrapper--right">
                   <img src={CalendarIcon} alt="" className="report__icon" />
-
                   <h3 className="report__header">Your logged events</h3>
                   {chosenDayHasEvents && (
                     <p className="report__event">No event this week!</p>
                   )}
-
-                  {hasEvents &&
-                    chosenDayData.map((log) => {
-                      return <p className="report__event">{log.event}</p>;
-                    })}
+                  {
+                    hasEvents && <p>{chosenDayData.event}</p>
+                    // chosenDayData.map((log) => {
+                    //   return <p className="report__event">{log.event}</p>;
+                  }
                 </div>
               </div>
             </div>
