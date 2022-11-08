@@ -11,6 +11,8 @@ import CalendarIcon from "../../assets/Icons/calendar.svg";
 import HeartIcon from "../../assets/Icons/heart.svg";
 import { Children } from "react";
 import Arrow from "../../assets/Icons/arrow.svg";
+import Button from "../Button/Button";
+import SkeletonProfile from "../SkeletonProfile/SkeletonProfile";
 
 const ProfilePage = () => {
   const [user, setUser] = useState(null);
@@ -162,13 +164,7 @@ const ProfilePage = () => {
   // });
 
   if (moods.length === 0) {
-    return (
-      <div>
-        <Header />
-        <h1>Welcome to inSight!</h1>
-        <p>To get started, fill out your first mood tracker!</p>
-      </div>
-    );
+    return <SkeletonProfile />;
   }
 
   const handleArrowClick = () => {
@@ -187,6 +183,18 @@ const ProfilePage = () => {
         <h1 className="dashboard__title">Your dashboard</h1>
         <p>Welcome back, {first_name}! &hearts;</p>
 
+        <div className="dashboard__buttons">
+          <Link to="#report">Your report</Link>
+          <Link to="#calendar">Your past data</Link>
+          <Link
+            to={`/profile/${
+              user ? user.userInformation.first_name : ""
+            }/connections`}
+          >
+            Your connections
+          </Link>
+        </div>
+
         {!chosenDayData && isToday && (
           <div className="dashboard__tracker">
             <Link
@@ -198,7 +206,7 @@ const ProfilePage = () => {
           </div>
         )}
 
-        <div className="report">
+        <div className="report" id="report">
           <h2 className="report__title">Your 7-day report:</h2>
           <div className="report__container">
             <div className="report__wrapper">
@@ -236,6 +244,7 @@ const ProfilePage = () => {
             Click on the day to see your mood!
           </p>
           <Calendar
+            id="calendar"
             value={calendarValue}
             maxDate={calendarValue}
             onClickDay={(e) => {
@@ -265,11 +274,9 @@ const ProfilePage = () => {
                   {chosenDayHasEvents && (
                     <p className="report__event">No event this week!</p>
                   )}
-                  {
-                    hasEvents && <p>{chosenDayData.event}</p>
-                    // chosenDayData.map((log) => {
-                    //   return <p className="report__event">{log.event}</p>;
-                  }
+                  {hasEvents && (
+                    <p className="report__event">{chosenDayData.event}</p>
+                  )}
                 </div>
               </div>
             </div>
@@ -310,24 +317,40 @@ const ProfilePage = () => {
             />
           </div>
 
-          {showConnections &&
-            userHasConnections &&
-            user.connections.map((connection) => {
-              return (
-                <article className="connections__card">
-                  <p className="connections__text">
-                    {connection.users.first_name} {connection.users.last_name}
-                  </p>
-                </article>
-              );
-            })}
+          {showConnections && userHasConnections && (
+            <>
+              {user.connections.map((connection) => {
+                return (
+                  <article className="connections__card">
+                    <p className="connections__text">
+                      {connection.users.first_name} {connection.users.last_name}
+                    </p>
+                  </article>
+                );
+              })}
+              <Link
+                to={`/profile/${
+                  user ? user.userInformation.first_name : ""
+                }/connections`}
+              >
+                <Button text="Check on your loved ones" />
+              </Link>
+            </>
+          )}
 
           {!userHasConnections && (
             <article className="connections__card">
               <p className="connections__text">
                 You don't have any connections yet.
               </p>
-              <button>Add connection</button>
+              <Link
+                to={`/profile/${
+                  user ? user.userInformation.first_name : ""
+                }/connections/search`}
+              >
+                Add connections
+              </Link>
+              ;
             </article>
           )}
         </div>
