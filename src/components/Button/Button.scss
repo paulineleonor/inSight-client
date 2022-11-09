@@ -11,4 +11,30 @@
   @include tablet {
     font-size: 2rem;
   }
+
+  &:hover {
+    background-color: #008aa0;
+  }
+
+  &--profile {
+    width: 23rem;
+    padding-left: 3rem;
+    background-image: url("../../assets/Icons/left-arrow.svg");
+    background-repeat: no-repeat;
+    background-size: 1.8rem;
+    background-position: 8% 50%;
+    background-color: #008aa0;
+
+    &:hover {
+      background-color: #026473;
+    }
+  }
+
+  &--addConnection {
+    background-color: #008aa0;
+
+    &:hover {
+      background-color: #026473;
+    }
+  }
 }

@@ -1,7 +1,57 @@
 .connections {
   padding: 1.6rem;
+  background-color: #ebf6fa;
 
   &__title {
+    margin: 2.4rem 0 1.6rem 0;
+  }
+
+  &__link {
+    text-decoration: none;
+  }
+}
+
+.connection {
+  background-color: white;
+  border-radius: 5px;
+  padding: 1.6rem;
+  margin-bottom: 1.6rem;
+
+  &__subtitle {
+    font-size: 1.4rem;
+  }
+
+  &__name {
     margin: 0;
+    font-size: 1.8rem;
+    font-weight: 600;
+  }
+
+  &__wrapper {
+    display: flex;
+  }
+
+  &__icon {
+    height: 3.2rem;
+  }
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 0.5rem;
+    margin-right: 1rem;
+    width: 33%;
+    border-radius: 3px;
+    box-shadow: 2px 2px 5px rgba($color: #008aa0, $alpha: 0.2);
+
+    &--right {
+      margin-right: 0;
+    }
+  }
+
+  &__heading {
+    font-weight: 600;
+    font-size: 1.2rem;
+    text-align: center;
   }
 }

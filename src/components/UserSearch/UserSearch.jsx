@@ -50,52 +50,59 @@ const UserSearch = () => {
 
   return (
     <div>
-      <Header />
+      <Header
+        leftButtonDestination={`/profile/${
+          currentUser ? currentUser.first_name : ""
+        }`}
+        leftButtonText={"Profile"}
+        rightButtonDestination={"/login"}
+        rightButtonText={"Sign out"}
+      />
       <div className="search">
-        <h2 className="search__title">Connect with your loved ones!</h2>
-        <p>Enter a contact's email above to connect with them.</p>
-
-        <div className="search__search">
+        <div className="search__container">
           {" "}
-          <form
-            className="search__form"
-            onSubmit={(e) => {
-              handleSubmit(e);
-            }}
-          >
-            <input
-              type="text"
-              name="user_email"
-              id="user_email"
-              className="search__input"
-              placeholder="Your loved one's email address"
-            />
-            <button type="submit" className="search__submit">
-              Submit
-            </button>
-          </form>
+          <h2 className="search__title">Connect with your loved ones!</h2>
+          <p>Enter a contact's email above to connect with them.</p>
+          <div className="search__search">
+            {" "}
+            <form
+              className="search__form"
+              onSubmit={(e) => {
+                handleSubmit(e);
+              }}
+            >
+              <input
+                type="text"
+                name="user_email"
+                id="user_email"
+                className="search__input"
+                placeholder="Your loved one's email address"
+              />
+              <button type="submit" className="search__submit">
+                Submit
+              </button>
+            </form>
+          </div>
+          {users && (
+            <article className="search__result">
+              <p className="search__name">
+                {users[0].first_name} {users[0].last_name}
+              </p>
+              <button onClick={handleConnect} className="search__button">
+                Connect
+              </button>
+            </article>
+          )}
         </div>
-        {users && (
-          <article className="search__result">
-            <p className="search__name">
-              {users[0].first_name} {users[0].last_name}
-            </p>
-            <button onClick={handleConnect} className="search__button">
-              Connect
-            </button>
-          </article>
-        )}
-      </div>
 
-      <div>
         <Link
           to={`/profile/${currentUser ? currentUser.first_name : ""}`}
-          className="search__link"
+          className="connections__link"
         >
-          {" "}
-          <Button text="Back to my profile" />
+          <Button text="Back to my profile" class="button--profile" />
         </Link>
       </div>
+
       <Footer />
     </div>
   );

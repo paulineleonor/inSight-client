@@ -2,6 +2,9 @@
   padding: 1.2rem;
   height: 70vh;
   background-color: #ebf6fa;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
   &__title {
     margin: 0;

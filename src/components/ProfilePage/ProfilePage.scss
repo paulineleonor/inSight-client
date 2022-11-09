@@ -58,6 +58,7 @@
 
   &__container {
     display: flex;
+    width: 100%;
   }
 
   &__header {
@@ -191,7 +192,7 @@
   }
 }
 
-.connections {
+.userconnections {
   &__wrapper {
     display: flex;
     align-items: center;
@@ -209,12 +210,17 @@
 
   &__card {
     background-color: white;
-    padding: 0.5rem;
+    padding: 1rem 1rem 2rem 1rem;
     border-radius: 5px;
     margin-bottom: 1.2rem;
   }
 
   &__text {
-    margin: 0.5rem 1rem;
+    margin: 1rem 1rem;
+  }
+
+  &__link {
+    text-decoration: none;
+    cursor: pointer;
   }
 }

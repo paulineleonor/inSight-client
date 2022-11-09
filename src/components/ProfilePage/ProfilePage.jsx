@@ -93,6 +93,8 @@ const ProfilePage = () => {
           return moment().isSame(mood.created_at, "day");
         });
 
+        console.log(response.data);
+
         setChosenDayData(data);
         setMoods(filteredMoods);
         checkForEvents(filteredMoods);
@@ -176,8 +178,10 @@ const ProfilePage = () => {
       <Header
         leftButtonDestination={"/"}
         leftButtonText={"Home"}
-        rightButtonDestination={"/login"}
-        rightButtonText={"Sign out"}
+        rightButtonDestination={`/profile/${
+          user ? user.userInformation.first_name : ""
+        }/connections`}
+        rightButtonText={"Connections"}
       />
       <main className="dashboard">
         <h1 className="dashboard__title">Your dashboard</h1>
@@ -303,16 +307,16 @@ const ProfilePage = () => {
           )}
         </div>
 
-        <div className="connections">
-          <div className="connections__wrapper">
+        <div className="userconnections">
+          <div className="userconnections__wrapper">
             {" "}
-            <h2 className="connections__title">
+            <h2 className="userconnections__title">
               Your connections ({user.connections.length})
             </h2>
             <img
               src={Arrow}
               alt=""
-              className="connections__icon"
+              className="userconnections__icon"
               onClick={handleArrowClick}
             />
           </div>
@@ -321,8 +325,8 @@ const ProfilePage = () => {
             <>
               {user.connections.map((connection) => {
                 return (
-                  <article className="connections__card">
-                    <p className="connections__text">
+                  <article className="userconnections__card">
+                    <p className="userconnections__text">
                       {connection.users.first_name} {connection.users.last_name}
                     </p>
                   </article>
@@ -338,19 +342,19 @@ const ProfilePage = () => {
             </>
           )}
 
-          {!userHasConnections && (
-            <article className="connections__card">
-              <p className="connections__text">
+          {!userHasConnections && showConnections && (
+            <article className="userconnections__card">
+              <p className="userconnections__text">
                 You don't have any connections yet.
               </p>
               <Link
+                className="userconnections__link"
                 to={`/profile/${
                   user ? user.userInformation.first_name : ""
                 }/connections/search`}
               >
-                Add connections
+                <Button text="Add connections" class="button--addConnection" />
               </Link>
-              ;
             </article>
           )}
         </div>

@@ -6,8 +6,10 @@ import { useState, useEffect } from "react";
 import Button from "../Button/Button";
 import moment from "moment";
 import { Link } from "react-router-dom";
-import Arrow from "../../assets/Icons/arrow.svg";
 import "./Connections.scss";
+import ChartIcon from "../../assets/Icons/chart.svg";
+import CalendarIcon from "../../assets/Icons/calendar.svg";
+import HeartIcon from "../../assets/Icons/heart.svg";
 
 const Connections = () => {
   const [user, setUser] = useState(null);
@@ -15,8 +17,6 @@ const Connections = () => {
   const [connections, setConnections] = useState();
 
   const [connectionsMoods, setConnectionsMoods] = useState();
-
-  const [showData, setShowData] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("JWT Token");
@@ -53,9 +53,9 @@ const Connections = () => {
     );
   }
 
-  const showDataArrow = () => {
-    setShowData(!showData);
-  };
+  // const showDataArrow = () => {
+  //   setShowData(!showData);
+  // };
 
   // const filterConnectionMoods = () => {
   //   const filteredMoods = connections.moods_logs.filter((mood) => {
@@ -67,8 +67,14 @@ const Connections = () => {
 
   return (
     <div>
-      <Header />
-
+      <Header
+        leftButtonDestination={`/profile/${
+          user ? user.userInformation.first_name : ""
+        }`}
+        leftButtonText={"Profile"}
+        rightButtonDestination={"/login"}
+        rightButtonText={"Sign out"}
+      />
       {!connections && (
         <div className="connections">
           <h2 className="connections__title">
@@ -79,7 +85,6 @@ const Connections = () => {
           </Link>
         </div>
       )}
-
       {connections && (
         <div className="connections">
           {" "}
@@ -88,23 +93,21 @@ const Connections = () => {
             return (
               <article className="connection" key={i}>
                 <div className="connection__inner">
-                  <p>
+                  <p className="connection__name">
                     {connection.first_name} {connection.last_name}
                   </p>
-                  <div className="connection__container">
-                    <p className="connection__subtitle">
-                      See how they're doing
-                    </p>
-                    <img src={Arrow} alt="" onClick={showDataArrow} />
-                  </div>
                 </div>
 
-                {showData && (
-                  <div className="connection__stats">
-                    <p className="connection__subtitle">Their 7-day report</p>
-                    <div className="connection__wrapper">
+                <div className="connection__stats">
+                  <p className="connection__subtitle">Their 7-day report:</p>
+                  <div className="connection__wrapper">
+                    <div className="connection__container">
+                      <img
+                        src={ChartIcon}
+                        alt=""
+                        className="connection__icon"
+                      />
                       <p className="connection__heading">Their score</p>
-
                       {connectionsMoods
                         .filter(
                           (connectionMood) =>
@@ -117,7 +120,14 @@ const Connections = () => {
                             </div>
                           );
                         })}
+                    </div>
 
+                    <div className="connection__container">
+                      <img
+                        src={HeartIcon}
+                        alt=""
+                        className="connection__icon"
+                      />
                       <p className="connection__heading">Their moods</p>
                       {connectionsMoods
                         .filter(
@@ -131,12 +141,15 @@ const Connections = () => {
                             </div>
                           );
                         })}
+                    </div>
 
-                      {/* {connectionsMoods.filter(
-                        (connectionMood) =>
-                          connectionMood.user_id === connection.id
-                      ).length === 0 && <p>No data...</p>} */}
-
+                    <div className="connection__container connection__container--right">
+                      {" "}
+                      <img
+                        src={CalendarIcon}
+                        alt=""
+                        className="connection__icon"
+                      />
                       <p className="connection__heading">Their events</p>
                       {connectionsMoods
                         .filter(
@@ -150,21 +163,22 @@ const Connections = () => {
                             </div>
                           );
                         })}
+                    </div>
 
-                      {/* {!connectionsMoods.filter(
+                    {/* {!connectionsMoods.filter(
                         (connectionMood) =>
                           connectionMood.user_id === connection.id
                       ).event && <p>No data...</p>} */}
 
-                      {/* {JSON.stringify(
+                    {/* {JSON.stringify(
                         connectionsMoods.filter(
                           (connectionMood) =>
                             connectionMood.user_id === connection.id
                         )
                       )} */}
 
-                      {/* Todo: Calculate average of mood scores */}
-                      {/* {connectionsMoods
+                    {/* Todo: Calculate average of mood scores */}
+                    {/* {connectionsMoods
                         .filter((connectionMood) => {
                           return (
                             connectionMood.user_id === connection.id &&
@@ -176,14 +190,20 @@ const Connections = () => {
                         .reduce((previousValue, currentValue) => {
                           return previousValue + currentValue, 0;
                         })} */}
-                    </div>
                   </div>
-                )}
+                </div>
               </article>
             );
           })}
+          <Link
+            to={`/profile/${user ? user.userInformation.first_name : ""}`}
+            className="connections__link"
+          >
+            <Button text="Back to my profile" class="button--profile" />
+          </Link>
         </div>
       )}
+
       <Footer />
     </div>
   );
