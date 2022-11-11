@@ -60,7 +60,6 @@ const ProfilePage = () => {
       }
     });
     setArrayOfEvents(arrayOfEvents);
-    console.log(arrayOfEvents);
 
     if (arrayOfEvents.length !== 0) {
       setHasEvents(true);
@@ -80,6 +79,7 @@ const ProfilePage = () => {
         },
       })
       .then((response) => {
+        console.log("RESPONSE", response.data);
         setUser(response.data);
         const filteredMoods = response.data.moods.filter((mood) => {
           return moment(mood.created_at).isAfter(moment().subtract(7, "days"));
@@ -152,7 +152,7 @@ const ProfilePage = () => {
       moodsTotal += mood.score;
     });
 
-    const moodsAverage = moodsTotal / moodsArray.length;
+    const moodsAverage = Math.floor(moodsTotal / moodsArray.length);
 
     if (moodsArray > 5) {
       setAverageIsGood(true);
@@ -186,18 +186,6 @@ const ProfilePage = () => {
       <main className="dashboard">
         <h1 className="dashboard__title">Your dashboard</h1>
         <p>Welcome back, {first_name}! &hearts;</p>
-
-        <div className="dashboard__buttons">
-          <Link to="#report">Your report</Link>
-          <Link to="#calendar">Your past data</Link>
-          <Link
-            to={`/profile/${
-              user ? user.userInformation.first_name : ""
-            }/connections`}
-          >
-            Your connections
-          </Link>
-        </div>
 
         {!chosenDayData && isToday && (
           <div className="dashboard__tracker">
@@ -333,6 +321,7 @@ const ProfilePage = () => {
                 );
               })}
               <Link
+                className="userconnections__link"
                 to={`/profile/${
                   user ? user.userInformation.first_name : ""
                 }/connections`}
@@ -353,7 +342,7 @@ const ProfilePage = () => {
                   user ? user.userInformation.first_name : ""
                 }/connections/search`}
               >
-                <Button text="Add connections" class="button--addConnection" />
+                <Button text="Add connections" class="addConnection" />
               </Link>
             </article>
           )}

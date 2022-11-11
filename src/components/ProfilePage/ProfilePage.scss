@@ -18,6 +18,11 @@
     // box-shadow: 3px 3px 10px #008aa0;
     margin-bottom: 2rem;
     cursor: pointer;
+    transition: background-color 1s;
+
+    &:hover {
+      background-color: #026473;
+    }
   }
 
   &__link {
@@ -113,7 +118,6 @@
   align-items: center;
   flex-direction: column;
   border-radius: 5px;
-  // box-shadow: 2px 2px 5px rgba($color: #008aa0, $alpha: 0.5);
   border: 2px solid #7fd6cb !important;
 
   &__navigation {
@@ -135,8 +139,16 @@
 
     &--active {
       background-color: #ffa62b !important;
+      transition: background-color 1s;
+
+      &:hover {
+        background-color: #e39527 !important;
+      }
     }
+
     &:enabled {
+      transition: background-color 1s;
+
       &:hover {
         background-color: #40b7be !important;
       }
@@ -146,6 +158,11 @@
   &__month-view__weekdays__weekday {
     font-family: "Montserrat";
     font-weight: 600;
+  }
+
+  &__month-view__weekdays {
+    text-transform: capitalize !important;
+    text-decoration: none !important;
   }
 }
 
@@ -157,7 +174,6 @@
   justify-content: center;
   align-items: center;
   border-radius: 5px;
-  // box-shadow: 3px 3px 10px #008aa0;
   padding: 0 1.2rem 1.2rem 1.2rem;
 
   &__container {
@@ -173,6 +189,11 @@
     border-radius: 50px;
     color: white;
     text-decoration: none;
+    transition: background-color 1s;
+
+    &:hover {
+      background-color: #026473;
+    }
   }
 
   &__text {
@@ -193,6 +214,7 @@
 }
 
 .userconnections {
+  margin-bottom: 2.4rem;
   &__wrapper {
     display: flex;
     align-items: center;
@@ -210,7 +232,7 @@
 
   &__card {
     background-color: white;
-    padding: 1rem 1rem 2rem 1rem;
+    padding: 1rem;
     border-radius: 5px;
     margin-bottom: 1.2rem;
   }

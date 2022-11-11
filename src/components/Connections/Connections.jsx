@@ -116,7 +116,9 @@ const Connections = () => {
                         .map((mood) => {
                           return (
                             <div>
-                              <p>{mood.score}</p>
+                              <p className="connection__score">
+                                {mood.score}/10
+                              </p>
                             </div>
                           );
                         })}
@@ -137,7 +139,7 @@ const Connections = () => {
                         .map((mood) => {
                           return (
                             <div>
-                              <p>{mood.mood}</p>
+                              <p className="connection__text">{mood.mood}</p>
                             </div>
                           );
                         })}
@@ -159,7 +161,7 @@ const Connections = () => {
                         .map((mood) => {
                           return (
                             <div>
-                              <p>{mood.event}</p>
+                              <p className="connection__text">{mood.event}</p>
                             </div>
                           );
                         })}
@@ -192,9 +194,31 @@ const Connections = () => {
                         })} */}
                   </div>
                 </div>
+                <Link
+                  to={`/profile/${
+                    user ? user.userInformation.first_name : ""
+                  }/connections/search`}
+                  className="connections__link"
+                >
+                  <Button
+                    text={`Contact ${connection.first_name}`}
+                    class="button--contact"
+                  />
+                </Link>
               </article>
             );
           })}
+          <div className="connections__addButton">
+            {" "}
+            <Link
+              to={`/profile/${
+                user ? user.userInformation.first_name : ""
+              }/connections/search`}
+              className="connections__link"
+            >
+              <Button text="Add new connection" class="button--add" />
+            </Link>
+          </div>
           <Link
             to={`/profile/${user ? user.userInformation.first_name : ""}`}
             className="connections__link"

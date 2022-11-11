@@ -24,6 +24,7 @@
     background-size: 1.8rem;
     background-position: 8% 50%;
     background-color: #008aa0;
+    transition: background-color 1s;
 
     &:hover {
       background-color: #026473;
@@ -32,6 +33,33 @@
 
   &--addConnection {
     background-color: #008aa0;
+    transition: background-color 1s;
+
+    &:hover {
+      background-color: #026473;
+    }
+  }
+
+  &--add {
+    background-image: url("../../assets/Icons/plus.svg");
+    background-repeat: no-repeat;
+    background-size: 1.4rem;
+    background-position: 8% 50%;
+    width: 16rem;
+    font-size: 1rem;
+    padding-left: 3rem;
+  }
+
+  &--contact {
+    margin-top: 1.6rem;
+    background-image: url("../../assets/Icons/message.svg");
+    background-repeat: no-repeat;
+    background-size: 1.4rem;
+    background-position: 8% 50%;
+    width: 15rem;
+    font-size: 1rem;
+    background-color: #008aa0;
+    transition: background-color 1s;
 
     &:hover {
       background-color: #026473;

@@ -22,7 +22,7 @@
     flex-direction: column;
     margin-bottom: 2.4rem;
     border-radius: 5px;
-    box-shadow: 3px 3px 10px #ffa62b;
+    // box-shadow: 3px 3px 10px #ffa62b;
   }
 
   &__inner {
@@ -42,7 +42,7 @@
     font-family: "Montserrat";
     text-transform: capitalize;
     padding: 1rem;
-    border: 2px solid #7fd6cb;
+    border: 2px solid #ffa62b;
     border-radius: 5px;
   }
 
@@ -50,7 +50,7 @@
     font-family: "Montserrat";
     text-transform: capitalize;
     padding: 1rem;
-    border: 2px solid #7fd6cb;
+    border: 2px solid #ffa62b;
     border-radius: 5px;
   }
 
@@ -63,4 +63,30 @@
     color: white;
     text-align: center;
   }
+}
+
+input[type="radio"] {
+  appearance: none;
+  background-color: transparent;
+  margin: 0 auto;
+  border: 3px solid #ffa62b;
+  border-radius: 50%;
+}
+input[type="radio"] {
+  /* ...existing styles */
+  display: grid;
+  place-content: center;
+}
+
+input[type="radio"]::before {
+  content: "";
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 50%;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em #ffa62b;
+}
+input[type="radio"]:checked::before {
+  transform: scale(1);
 }

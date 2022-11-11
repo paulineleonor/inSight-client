@@ -7,6 +7,7 @@ import "./MoodTracker.scss";
 import { useState } from "react";
 import Heart from "../../assets/Icons/heart.svg";
 import Button from "../Button/Button";
+import Footer from "../Footer/Footer";
 
 const MoodTracker = () => {
   const navigate = useNavigate();
@@ -45,6 +46,7 @@ const MoodTracker = () => {
     await axios.post("http://localhost:8081/moods", newLog);
 
     setUser(decodedUser.name);
+    console.log(decodedUser);
 
     setTimeout(() => {
       navigate(`/profile/${decodedUser.name}`);
@@ -56,8 +58,9 @@ const MoodTracker = () => {
       <Header
         leftButtonDestination={`/profile/${user}`}
         leftButtonText={"My profile"}
-        rightButtonDestination={"/login"}
-        rightButtonText={"Sign out"}
+        // Fix connections link
+        rightButtonDestination={`/profile/${user ? user : ""}/connections`}
+        rightButtonText={"Connections"}
       />
 
       <section className="tracker">
@@ -185,6 +188,8 @@ const MoodTracker = () => {
           <button className="tracker__button">Submit</button>
         </form>
       </section>
+
+      <Footer />
     </div>
   );
 };

@@ -37,7 +37,12 @@ const LoginPage = () => {
 
   return (
     <div>
-      <Header />
+      <Header
+        leftButtonDestination={"/"}
+        leftButtonText={"Home"}
+        rightButtonDestination={"/signup"}
+        rightButtonText={"Sign up"}
+      />
       <section className="loginpage">
         <div className="loginpage__container">
           {" "}
@@ -63,7 +68,7 @@ const LoginPage = () => {
             </label>
 
             <input
-              type="text"
+              type="password"
               name="password"
               id="password"
               placeholder="Password"
