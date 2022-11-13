@@ -181,8 +181,12 @@ const ProfilePage = () => {
               <img src={HeartIcon} alt="" className="report__icon" />
 
               <h3 className="report__header">Your moods this week</h3>
-              {moods.map((mood) => {
-                return <p className="report__moods">{mood.mood}</p>;
+              {moods.map((mood, i) => {
+                return (
+                  <p className="report__moods" key={i}>
+                    {mood.mood}
+                  </p>
+                );
               })}
             </div>
 
