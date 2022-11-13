@@ -4,10 +4,10 @@ import axios from "axios";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import jwt_decode from "jwt-decode";
-import { useNavigate } from "react-router-dom";
 import Button from "../Button/Button";
 import { Link } from "react-router-dom";
 import "./UserSearch.scss";
+import { useNavigate } from "react-router-dom";
 
 const UserSearch = () => {
   const [users, setUsers] = useState();
@@ -49,8 +49,12 @@ const UserSearch = () => {
       connection_id: users[0].id,
     };
 
-    console.log(decodedUser);
     await axios.post("http://localhost:8081/users/connection", connection);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("JWT Token");
+    navigate("/login");
   };
 
   return (
@@ -62,6 +66,7 @@ const UserSearch = () => {
         leftButtonText={"Profile"}
         rightButtonDestination={"/login"}
         rightButtonText={"Sign out"}
+        onClick={handleLogout}
       />
       <div className="search">
         <div className="search__container">

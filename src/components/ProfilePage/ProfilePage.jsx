@@ -9,7 +9,6 @@ import ChartIcon from "../../assets/Icons/chart.svg";
 import "react-calendar/dist/Calendar.css";
 import CalendarIcon from "../../assets/Icons/calendar.svg";
 import HeartIcon from "../../assets/Icons/heart.svg";
-import { Children } from "react";
 import Arrow from "../../assets/Icons/arrow.svg";
 import Button from "../Button/Button";
 import SkeletonProfile from "../SkeletonProfile/SkeletonProfile";
@@ -18,10 +17,7 @@ const ProfilePage = () => {
   const [user, setUser] = useState(null);
   const [failedAuth, setfailedAuth] = useState(false);
   const [calendarValue, setCalendarValue] = useState(new Date());
-  const [selectedDay, setSelectedDay] = useState(null);
   const [hasEvents, setHasEvents] = useState(false);
-  const [averageIsGood, setAverageIsGood] = useState(false);
-  const [currentDayIsEmpty, setCurrentDayIsEmpty] = useState(true);
   const [chosenDayHasEvents, setChosenDayHasEvents] = useState(false);
 
   const [isToday, setIsToday] = useState(true);
@@ -99,6 +95,7 @@ const ProfilePage = () => {
       })
       .catch((error) => {
         console.log(error);
+        setfailedAuth(true);
       });
   }, []);
 
@@ -137,10 +134,6 @@ const ProfilePage = () => {
     });
 
     const moodsAverage = Math.floor(moodsTotal / moodsArray.length);
-
-    if (moodsArray > 5) {
-      setAverageIsGood(true);
-    }
 
     return moodsAverage;
   };

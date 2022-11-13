@@ -37,8 +37,6 @@ const Connections = () => {
 
         setConnections(response.data.connectionsInfo);
         setConnectionsMoods(response.data.connectionMoods);
-
-        console.log(response.data.connections);
       })
       .catch((error) => {
         setFailedAuth(true);
@@ -57,6 +55,11 @@ const Connections = () => {
     navigate("/login");
   }
 
+  const handleLogout = () => {
+    localStorage.removeItem("JWT Token");
+    navigate("/login");
+  };
+
   return (
     <div>
       <Header
@@ -66,6 +69,7 @@ const Connections = () => {
         leftButtonText={"Profile"}
         rightButtonDestination={"/login"}
         rightButtonText={"Sign out"}
+        onClick={handleLogout}
       />
       {!connections && (
         <div className="connections">
