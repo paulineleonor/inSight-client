@@ -19,7 +19,6 @@ const UserSearch = () => {
   useEffect(() => {
     const token = localStorage.getItem("JWT Token");
     const decodedUser = jwt_decode(token);
-    console.log(decodedUser.first_name);
     setCurrentUser(decodedUser);
   }, []);
 

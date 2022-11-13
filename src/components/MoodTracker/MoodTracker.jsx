@@ -78,7 +78,6 @@ const MoodTracker = () => {
       <Header
         leftButtonDestination={`/profile/${user}`}
         leftButtonText={"My profile"}
-        // Fix connections link
         rightButtonDestination={`/profile/${user ? user.name : ""}/connections`}
         rightButtonText={"Connections"}
       />

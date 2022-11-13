@@ -25,7 +25,6 @@ const Connections = () => {
     if (!token) {
       return setFailedAuth(true);
     }
-    // Get the data from the API
     axios
       .get("http://localhost:8081/users/connections", {
         headers: {

@@ -18,7 +18,6 @@ const SignUp = () => {
     };
 
     const { data } = await axios.post("http://localhost:8081/users", newUser);
-    console.log(data);
 
     localStorage.setItem("JWT Token", data);
     navigate("/profile/" + e.target.first_name.value);

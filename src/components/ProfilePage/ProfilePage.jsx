@@ -67,7 +67,6 @@ const ProfilePage = () => {
     if (!token) {
       return setfailedAuth(true);
     }
-    // Get the data from the API
     axios
       .get("http://localhost:8081/users/profile", {
         headers: {
@@ -75,7 +74,6 @@ const ProfilePage = () => {
         },
       })
       .then((response) => {
-        console.log("RESPONSE", response.data);
         setUser(response.data);
         const filteredMoods = response.data.moods.filter((mood) => {
           return moment(mood.created_at).isAfter(moment().subtract(7, "days"));
