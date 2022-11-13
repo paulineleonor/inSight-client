@@ -8,10 +8,18 @@ import { useState } from "react";
 import Heart from "../../assets/Icons/heart.svg";
 import Button from "../Button/Button";
 import Footer from "../Footer/Footer";
+import { useEffect } from "react";
 
 const MoodTracker = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
+
+  const [errors, setErrors] = useState({
+    score: false,
+    mood: false,
+  });
+
+  let showError = false;
 
   const moodsArray = [
     "happy",
@@ -23,12 +31,27 @@ const MoodTracker = () => {
     "other",
   ];
 
-  const submitHandler = async (e) => {
-    e.preventDefault();
-
+  useEffect(() => {
     const token = localStorage.getItem("JWT Token");
 
     const decodedUser = jwt_decode(token);
+    setUser(decodedUser);
+  }, []);
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+
+    if (!e.target.mood_rating.value) {
+      showError = true;
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        score: true,
+      }));
+    }
+
+    if (showError) {
+      return;
+    }
 
     let event = null;
 
@@ -37,7 +60,7 @@ const MoodTracker = () => {
     }
 
     const newLog = {
-      user_id: decodedUser.id,
+      user_id: user.id,
       score: e.target.mood_rating.value,
       mood: e.target.mood_name.value,
       event: event,
@@ -45,11 +68,8 @@ const MoodTracker = () => {
 
     await axios.post("http://localhost:8081/moods", newLog);
 
-    setUser(decodedUser.name);
-    console.log(decodedUser);
-
     setTimeout(() => {
-      navigate(`/profile/${decodedUser.name}`);
+      navigate(`/profile/${user.name}`);
     }, 2000);
   };
 
@@ -59,7 +79,7 @@ const MoodTracker = () => {
         leftButtonDestination={`/profile/${user}`}
         leftButtonText={"My profile"}
         // Fix connections link
-        rightButtonDestination={`/profile/${user ? user : ""}/connections`}
+        rightButtonDestination={`/profile/${user ? user.name : ""}/connections`}
         rightButtonText={"Connections"}
       />
 
@@ -161,6 +181,11 @@ const MoodTracker = () => {
               <p className="tracker__grade">Not good</p>
               <p className="tracker__grade">Excellent</p>
             </div>
+            {errors.score && (
+              <div>
+                <p className="tracker__error">This field is required</p>
+              </div>
+            )}
           </div>
 
           <div className="tracker__container">
@@ -168,8 +193,12 @@ const MoodTracker = () => {
               What is your dominant mood today?
             </label>
             <select name="mood_name" id="mood_name" className="tracker__option">
-              {moodsArray.map((mood) => {
-                return <option value={mood}>{mood}</option>;
+              {moodsArray.map((mood, i) => {
+                return (
+                  <option value={mood} key={i}>
+                    {mood}
+                  </option>
+                );
               })}
             </select>
           </div>
