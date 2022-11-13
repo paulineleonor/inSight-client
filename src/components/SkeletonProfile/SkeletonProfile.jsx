@@ -33,6 +33,7 @@ const SkeletonProfile = () => {
         leftButtonText={"Home"}
         rightButtonDestination={"/login"}
         rightButtonText={"Sign out"}
+        onClick={handleLogout}
       />
       <main className="dashboard">
         <h1 className="dashboard__title">Your dashboard</h1>
