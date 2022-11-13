@@ -12,6 +12,7 @@ import "./UserSearch.scss";
 const UserSearch = () => {
   const [users, setUsers] = useState();
   const [currentUser, setCurrentUser] = useState();
+  const [showError, setShowError] = useState(false);
 
   const navigate = useNavigate();
 
@@ -25,6 +26,10 @@ const UserSearch = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setUsers();
+
+    if (!e.target.user_email.value) {
+      setShowError(true);
+    }
 
     const { data } = await axios.get(
       `http://localhost:8081/users/search?email=${e.target.user_email.value}`
@@ -71,17 +76,23 @@ const UserSearch = () => {
                 handleSubmit(e);
               }}
             >
-              <input
-                type="text"
-                name="user_email"
-                id="user_email"
-                className="search__input"
-                placeholder="Your loved one's email address"
-              />
-              <button type="submit" className="search__submit">
-                Submit
-              </button>
+              <div className="search__wrapper">
+                {" "}
+                <input
+                  type="text"
+                  name="user_email"
+                  id="user_email"
+                  className="search__input"
+                  placeholder="Your loved one's email address"
+                />{" "}
+                <button type="submit" className="search__submit">
+                  Submit
+                </button>
+              </div>
             </form>
+            {showError && (
+              <p className="tracker__error">This field is required</p>
+            )}
           </div>
           {users && (
             <article className="search__result">

@@ -1,7 +1,7 @@
 @use "../../styles/partials/variables" as *;
 
 .search {
-  padding: 1.2rem;
+  padding: $page-padding;
   height: 70vh;
   background-color: #ebf6fa;
   display: flex;
@@ -45,6 +45,12 @@
     color: white;
     border-radius: 50px;
     height: 2.2rem;
+  }
+
+  &__wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
   }
 
   &__result {
