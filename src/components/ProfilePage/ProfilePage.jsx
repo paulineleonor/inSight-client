@@ -93,24 +93,14 @@ const ProfilePage = () => {
           return moment().isSame(mood.created_at, "day");
         });
 
-        console.log(response.data);
-
         setChosenDayData(data);
         setMoods(filteredMoods);
         checkForEvents(filteredMoods);
       })
       .catch((error) => {
-        // setfailedAuth
-        //    true
-        // );
+        console.log(error);
       });
   }, []);
-
-  // useEffect(() => {
-  //   // if (moods.length !== 0) {
-  //   checkForEvents();
-  //   // }
-  // }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("JWT Token");
@@ -139,14 +129,8 @@ const ProfilePage = () => {
 
   const moodsAverage = () => {
     let moodsTotal = 0;
-
     const moodsCopy = [...user.moods];
-
-    // console.log(user.moods);
-
     let moodsArray = moodsCopy.splice(0, 7);
-
-    // console.log(user.moods);
 
     moodsArray.forEach((mood) => {
       moodsTotal += mood.score;
@@ -160,10 +144,6 @@ const ProfilePage = () => {
 
     return moodsAverage;
   };
-
-  // const filteredMoods = user.moods.filter((mood) => {
-  //   return moment(mood.created_at).isAfter(moment().subtract(7, "days"));
-  // });
 
   if (moods.length === 0) {
     return <SkeletonProfile />;

@@ -1,3 +1,5 @@
+@use "../../styles/partials/variables" as *;
+
 .loginpage {
   background-image: url("../../assets/Images/pexels-august-de-richelieu-4262410.jpg");
   height: 100vh;
@@ -38,7 +40,6 @@
     padding: 1.2rem;
     border: none;
     border-radius: 30px;
-    // background-color: rgba($color: #7fd6cb, $alpha: 0.4);
 
     &::placeholder {
       font-family: "Montserrat";
@@ -52,7 +53,7 @@
   &__button {
     all: unset;
     text-align: center;
-    background-color: #40b7be;
+    background-color: $secondary-colour;
     padding: 1rem;
     color: white;
     margin-top: 0.4rem;

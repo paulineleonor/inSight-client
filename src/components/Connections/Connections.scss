@@ -1,5 +1,7 @@
+@use "../../styles/partials/variables" as *;
+
 .connections {
-  padding: 1.6rem;
+  padding: $page-padding;
   background-color: #ebf6fa;
 
   &__title {
@@ -20,8 +22,8 @@
 .connection {
   background-color: white;
   border-radius: 5px;
-  padding: 1.6rem;
-  margin-bottom: 1.6rem;
+  padding: $page-padding;
+  margin-bottom: $page-padding;
 
   &__subtitle {
     font-size: 1.4rem;
@@ -48,7 +50,7 @@
     margin-right: 1rem;
     width: 33%;
     border-radius: 3px;
-    box-shadow: 2px 2px 5px rgba($color: #008aa0, $alpha: 0.2);
+    box-shadow: 2px 2px 5px rgba($color: $third-colour, $alpha: 0.2);
 
     &--right {
       margin-right: 0;

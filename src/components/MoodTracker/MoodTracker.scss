@@ -1,6 +1,8 @@
+@use "../../styles/partials/variables" as *;
+
 .tracker {
-  padding: 1.6rem;
-  background-color: #ebf6fa;
+  padding: $page-padding;
+  background-color: $background-colour;
 
   &__title {
     margin-top: 1rem;
@@ -17,12 +19,11 @@
 
   &__container {
     background-color: white;
-    padding: 1.6rem;
+    padding: $page-padding;
     display: flex;
     flex-direction: column;
     margin-bottom: 2.4rem;
     border-radius: 5px;
-    // box-shadow: 3px 3px 10px #ffa62b;
   }
 
   &__inner {
@@ -69,11 +70,10 @@ input[type="radio"] {
   appearance: none;
   background-color: transparent;
   margin: 0 auto;
-  border: 3px solid #ffa62b;
+  border: 3px solid $accent-colour-one;
   border-radius: 50%;
 }
 input[type="radio"] {
-  /* ...existing styles */
   display: grid;
   place-content: center;
 }
@@ -85,7 +85,7 @@ input[type="radio"]::before {
   border-radius: 50%;
   transform: scale(0);
   transition: 120ms transform ease-in-out;
-  box-shadow: inset 1em 1em #ffa62b;
+  box-shadow: inset 1em 1em $accent-colour-one;
 }
 input[type="radio"]:checked::before {
   transform: scale(1);

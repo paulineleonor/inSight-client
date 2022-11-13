@@ -10,18 +10,20 @@ import "./Connections.scss";
 import ChartIcon from "../../assets/Icons/chart.svg";
 import CalendarIcon from "../../assets/Icons/calendar.svg";
 import HeartIcon from "../../assets/Icons/heart.svg";
+import { useNavigate } from "react-router-dom";
 
 const Connections = () => {
   const [user, setUser] = useState(null);
-  const [failedAuth, setfailedAuth] = useState(false);
   const [connections, setConnections] = useState();
-
+  const [failedAuth, setFailedAuth] = useState();
   const [connectionsMoods, setConnectionsMoods] = useState();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("JWT Token");
     if (!token) {
-      return setfailedAuth(true);
+      return setFailedAuth(true);
     }
     // Get the data from the API
     axios
@@ -39,9 +41,7 @@ const Connections = () => {
         console.log(response.data.connections);
       })
       .catch((error) => {
-        // setfailedAuth
-        //    true
-        // );
+        setFailedAuth(true);
       });
   }, []);
 
@@ -53,17 +53,9 @@ const Connections = () => {
     );
   }
 
-  // const showDataArrow = () => {
-  //   setShowData(!showData);
-  // };
-
-  // const filterConnectionMoods = () => {
-  //   const filteredMoods = connections.moods_logs.filter((mood) => {
-  //     return moment(mood.created_at).isAfter(moment().subtract(7, "days"));
-  //   });
-  // };
-
-  // const userConnectionMoods =
+  if (failedAuth) {
+    navigate("/login");
+  }
 
   return (
     <div>

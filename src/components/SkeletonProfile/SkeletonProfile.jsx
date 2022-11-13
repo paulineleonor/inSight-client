@@ -38,12 +38,6 @@ const SkeletonProfile = () => {
         <h1 className="dashboard__title">Your dashboard</h1>
         <p>Welcome! &hearts;</p>
 
-        <div className="dashboard__buttons">
-          <Link to="#report">Your report</Link>
-          <Link to="#calendar">Your past data</Link>
-          <Link to={`/profile/${name}/connections`}>Your connections</Link>
-        </div>
-
         <div className="dashboard__tracker">
           <Link to={`/profile/${name}/moodtracker`} className="dashboard__link">
             Fill out your daily tracker!

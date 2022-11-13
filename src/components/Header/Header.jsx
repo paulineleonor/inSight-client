@@ -15,6 +15,7 @@ const Header = (props) => {
           {props.leftButtonText}
         </Link>
         <Link
+          onClick={props.onClick}
           to={props.rightButtonDestination}
           className="nav__link nav__link--signup"
         >

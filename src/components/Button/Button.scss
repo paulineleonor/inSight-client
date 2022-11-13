@@ -1,9 +1,10 @@
 @use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/variables" as *;
 
 .button {
   color: white;
   padding: 1rem 2rem;
-  background-color: #40b7be;
+  background-color: $secondary-colour;
   border-radius: 50px;
   text-align: center;
   cursor: pointer;
@@ -13,7 +14,7 @@
   }
 
   &:hover {
-    background-color: #008aa0;
+    background-color: $third-colour;
   }
 
   &--profile {
@@ -23,7 +24,7 @@
     background-repeat: no-repeat;
     background-size: 1.8rem;
     background-position: 8% 50%;
-    background-color: #008aa0;
+    background-color: $third-colour;
     transition: background-color 1s;
 
     &:hover {
@@ -32,7 +33,7 @@
   }
 
   &--addConnection {
-    background-color: #008aa0;
+    background-color: $third-colour;
     transition: background-color 1s;
 
     &:hover {
@@ -58,7 +59,7 @@
     background-position: 8% 50%;
     width: 15rem;
     font-size: 1rem;
-    background-color: #008aa0;
+    background-color: $third-colour;
     transition: background-color 1s;
 
     &:hover {

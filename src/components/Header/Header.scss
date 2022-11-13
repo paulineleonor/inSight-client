@@ -1,14 +1,17 @@
+@use "../../styles/partials/variables" as *;
+
 .header {
   color: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #7fd6cb;
+  background-color: $primary-colour;
   padding: 1.2rem 2rem;
 
   &__link {
     text-decoration: none;
     color: white;
+    margin-right: 1rem;
   }
 }
 
@@ -20,13 +23,14 @@
     text-decoration: none;
     color: white;
     padding: 1rem;
-    background-color: #40b7be;
+    background-color: $secondary-colour;
     border-radius: 50px;
     text-align: center;
+    font-size: 1.2rem;
 
     &--signup {
       margin-left: 1rem;
-      background-color: #008aa0;
+      background-color: $third-colour;
     }
   }
 }

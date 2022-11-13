@@ -21,6 +21,7 @@ const LoginPage = () => {
       "http://localhost:8081/users/login",
       user
     );
+
     console.log(data);
     localStorage.setItem("JWT Token", data.token);
     navigate("/profile/" + jwt_decode(data.token).first_name);
